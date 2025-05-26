@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
+import pLimit from 'p-limit';
 import { SubscriptionFrequency } from 'src/common/utils/db-enums';
 import { MailService } from 'src/mail/mail.service';
 import { Subscription } from 'src/subscription/subscription.entity';
@@ -55,11 +56,15 @@ export class WeatherService {
     });
 
     if (subscribers.length === 0) return;
-
+      
+    const limit = pLimit(3);
+    
     await Promise.allSettled(
         subscribers.map(async (sub) => {
+        limit(async () => {
         const weather = await this.getCurrentWeather(sub.city);
-        await this.mailService.sendCurrentWeatherEmail(weather, sub.email,sub.city);
+         await this.mailService.sendCurrentWeatherEmail(weather, sub.email, sub.city);
+      })
     })
 );
 
