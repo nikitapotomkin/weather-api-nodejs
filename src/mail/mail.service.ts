@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { render } from '@react-email/components';
 import { ConfirmSubscribeTemplate } from './templates/confirm-subscribe.template';
 import { CurrentWeatherTemplate } from './templates/current-weather.template';
+import { CurrentWeather } from 'src/weather/types/current-weather.type';
 
 @Injectable()
 export class MailService {

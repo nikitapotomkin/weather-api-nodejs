@@ -1,5 +1,6 @@
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 import { WeatherService } from './weather.service';
+import { SubscriptionFrequency } from 'src/common/utils/db-enums';
 
 @Controller()
 export class WeatherController {

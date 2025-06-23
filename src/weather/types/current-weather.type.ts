@@ -1,4 +1,4 @@
-type CurrentWeather = {
+export type CurrentWeather = {
   temperature: number;
   humidity: number;
   description: string;
